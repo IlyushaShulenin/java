@@ -1,0 +1,22 @@
+class User {
+	private Long id;
+	private String username;
+	private String userEmail;
+}
+
+/////////////////////////////////////////////
+
+@Embeddable
+class UserInfo {
+	private String username;
+	private String userEmail;
+}
+
+
+class User {
+	private Long id;
+	
+	@Embadded
+	@AttrubuiteOverride(name = "userEmail", column = @Column(name = "user_email"))
+	private UserInfo userInfo;
+}

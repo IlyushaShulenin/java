@@ -1,0 +1,63 @@
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    private UserInfo userInfo;
+
+    @Column(name = "role")
+    private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+}
+
+
+@Entity
+@Table(name = "company")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
+public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "name")
+    private String name;
+    
+    
+    @OneToMany(mappedBy = "company")	// поле в User по которому сущности мапятся
+    private List<User> users;
+}
+
+
+по умолчанию fetch = LAZY. Можно использовать любые коллекции, но при использованиии Set может возникнуть StackOverflow из-за вызовов equals, поэтому
+EqualsAndHascode(exclude = "users")
+
+так как fetch = LAZY, то коллекция выгружается как прокси PersistenceBag, PersistenceBag = HibernateProxy, но для коллекций
+
+
+
+
+
+
+
+
+
+
+
+
+
+

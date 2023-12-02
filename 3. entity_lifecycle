@@ -1,0 +1,19 @@
+состояния entity:
+	- Transient
+	- Persistent
+	- Detached
+	- Removed
+	
+
+	* -> new Entity() -> Transient
+	|			|
+  Session.get()		  Session.save()
+  Session.createQuery()	  Session.saveOrUpdate()
+  	|			|
+  	 -----------------> Persistent --------Session.delete(entity)-----> Removed
+                               /  \	 		
+  	 Session.evict(entity)        Session.saveOrUpdate(entity)
+  	 Session.clear()	     	 Session.update(entity)
+  	 Session.close()		 Session.merge(entity)
+  	 		       \  /
+  	 		     Detached

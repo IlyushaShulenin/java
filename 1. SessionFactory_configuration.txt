@@ -1,0 +1,22 @@
+Конфигурация SessionFactory для Hiberante
+
+В файле hiberante.cfg.xml:
+
+...
+<session-factory>
+	<property name="connection.url">jdbc:postgresql://localhost5432/database</property>
+	<property name="connection.username">postgres</property>
+	<property name="connection.password">password</property>
+	<property name="connection.driver_class">org.postgresql.Driver</property>
+	<property name="connection.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+</session-factory>
+...
+
+
+
+Создание объекта SessionFactory
+
+Configuration configurantion = new Configuration();
+configurantion.configure();	// принимает путь к hiberante.cfg.xml
+
+try (SessionFactory = configurantion.buildSessionFactory()) {}

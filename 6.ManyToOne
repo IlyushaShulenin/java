@@ -1,0 +1,60 @@
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    private UserInfo userInfo;
+
+    @Column(name = "role")
+    private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+}
+
+
+@Entity
+@Table(name = "company")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
+public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "name")
+    private String name;
+}
+
+
+
+по умолчанию, при получении из ьаюлицы сущности User по отношению к сущности Company выполняется left outer join, из за чего в селект попадают юзеры, у которых поле company равно null. Чтобы избежать этого и оптимизировать запрос запрос у аннотации ManyToOne есть параметр optional, который по умолчанию равен true, при optinal = false выполняется inner join
+
+у ManyToOne есть паарметр fetchType, который отвечает за то, как сущность будет выгружать из таблицы. по умолчанию fetchType = EAGER, поэтому при селекте юзера достается соотвестствующая сущность Company. при fetchType = LAZY создается прокси Company, которая становиттся объектом, только если используется в программе.
+
+можно из прокси достать сам объект 
+Object company = Hibernate.unproxy(user.getCompany());
+
+
+чтобы при удаленнии компании удалялись все ее юзеры лучше указывать cascade на уровне базы данных
+
+
+параметр orphanRemoval связь коллекции с ее элементами, являющимим сущностями. То есть при удалении элемента из коллекции удаляется соответствующая сущность.  
+
+
+
+
+
+
